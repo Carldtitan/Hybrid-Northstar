@@ -1,0 +1,6 @@
+{
+  "split": "test_task",
+  "evaluated_examples": 90,
+  "recall@10": 0.5111111111111111,
+  "mrr": 0.2436089940743238
+}

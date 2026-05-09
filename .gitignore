@@ -8,6 +8,15 @@ venv/
 env/
 
 artifacts/
+!artifacts/
+artifacts/*
+!artifacts/*.json
+!artifacts/ranker_distilbert/
+!artifacts/ranker_distilbert/**
+!artifacts/northstar-dom-lora/
+!artifacts/northstar-dom-lora/**
+!artifacts/reports/
+!artifacts/reports/**
 logs/
 
 build/
