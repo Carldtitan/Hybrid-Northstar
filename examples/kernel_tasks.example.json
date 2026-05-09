@@ -1,0 +1,18 @@
+[
+  {
+    "name": "wikipedia-ada",
+    "task": "Go to wikipedia.org, search for Ada Lovelace, and open the article.",
+    "start_url": "https://www.wikipedia.org",
+    "max_steps": 20,
+    "expected_url_contains": "Ada_Lovelace",
+    "expected_text_contains": ["Ada Lovelace"]
+  },
+  {
+    "name": "github-openai-repo",
+    "task": "Go to github.com/openai and open the gpt-oss repository page.",
+    "start_url": "https://github.com/openai",
+    "max_steps": 20,
+    "expected_url_contains": "openai/gpt-oss",
+    "expected_text_contains": ["gpt-oss"]
+  }
+]
