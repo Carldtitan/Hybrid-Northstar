@@ -182,6 +182,17 @@ This is the demo shape you want for the hackathon:
 - **your DOM-grounded / fine-tuned Northstar on the same kind of Kernel browser**
 - same task spec, same viewport, same success checks
 
+## TypeScript Kernel Harness
+
+An additional TypeScript harness lives in [`kernel-harness/`](kernel-harness/). It provides:
+
+- a Kernel + Lightcone Responses API live runner for base Northstar
+- safe task definitions for Craigslist, Airbnb, DoorDash, and UberEats-style workflows
+- sanitized page-state logging, screenshot dimension checks, coordinate tracing, and loop guards
+- model adapter placeholders for comparing base Northstar against a future fine-tuned/hybrid model in the same Kernel browser environment
+
+Keep real credentials in local environment variables or `kernel-harness/.env`; do not commit secrets.
+
 Use safe tasks first. For commerce flows like UberEats, stop before final checkout unless you explicitly want to place a live order.
 
 ### Run base Northstar on Kernel

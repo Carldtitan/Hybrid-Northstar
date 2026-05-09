@@ -1,0 +1,24 @@
+{
+  "name": "northstar-kernel-harness",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Safe Kernel-hosted computer-use harness for comparing base Northstar and a future fine-tuned model.",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "run:task": "tsx scripts/run-task.ts",
+    "run:comparison": "tsx scripts/run-comparison.ts",
+    "run:live:northstar": "tsx scripts/run-live-northstar.ts",
+    "test": "tsx --test tests/unit/*.test.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.30",
+    "tsx": "^4.7.1",
+    "typescript": "^5.4.3"
+  },
+  "dependencies": {
+    "@onkernel/sdk": "^0.52.0",
+    "@tzafon/lightcone": "^0.14.0",
+    "dotenv": "^17.4.2"
+  }
+}
