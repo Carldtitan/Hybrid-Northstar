@@ -31,7 +31,13 @@ from domstar.data.mind2web import (
 from domstar.dom.schema import DOMCandidate
 from domstar.finetune.prompting import build_chat_messages, build_user_prompt, format_target_action
 from domstar.ranker.runtime import DOMRanker
-from domstar.utils.logging_utils import log_runtime_environment, prune_checkpoints, setup_logging, validate_non_empty
+from domstar.utils.logging_utils import (
+    log_runtime_environment,
+    prune_checkpoints,
+    save_training_history,
+    setup_logging,
+    validate_non_empty,
+)
 
 
 def parse_args() -> argparse.Namespace:
@@ -472,6 +478,7 @@ def main() -> None:
         trainer.train()
         trainer.save_model(args.output_dir)
         processor.save_pretrained(args.output_dir)
+        save_training_history(args.output_dir, trainer.state.log_history, logger)
         if args.cleanup_checkpoints:
             prune_checkpoints(args.output_dir, logger)
 

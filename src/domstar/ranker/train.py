@@ -20,7 +20,13 @@ from transformers import (
 )
 
 from domstar.data.mind2web import build_ranker_query, iter_mind2web_rows, row_to_action_example
-from domstar.utils.logging_utils import log_runtime_environment, prune_checkpoints, setup_logging, validate_non_empty
+from domstar.utils.logging_utils import (
+    log_runtime_environment,
+    prune_checkpoints,
+    save_training_history,
+    setup_logging,
+    validate_non_empty,
+)
 
 
 def parse_args() -> argparse.Namespace:
@@ -200,6 +206,7 @@ def main() -> None:
         trainer.train()
         trainer.save_model(args.output_dir)
         tokenizer.save_pretrained(args.output_dir)
+        save_training_history(args.output_dir, trainer.state.log_history, logger)
         if args.cleanup_checkpoints:
             prune_checkpoints(args.output_dir, logger)
 

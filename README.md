@@ -253,6 +253,36 @@ This code is designed to scale with NVIDIA hackathon compute:
 - The LoRA stage is the expensive part.
 - `top-k=12` is a good default because it keeps the DOM prompt small enough to stay stable while still giving the model useful structure.
 
+## Reports and visuals
+
+Remote runs on Brev do **not** update your local VS Code automatically.
+
+- Code changes need `git push` from one side and `git pull` on the other.
+- `artifacts/` and `logs/` are ignored by git here, so they stay on the machine that produced them unless you copy them back.
+
+Both training scripts now save `log_history.json` into their output directories. You can turn those histories, eval JSON files, and log files into a compact report with charts:
+
+```powershell
+python -m domstar.reporting.generate_report `
+  --output-dir artifacts/reports/latest `
+  --ranker-dir artifacts/ranker_distilbert `
+  --ranker-eval-json artifacts/ranker_eval.json `
+  --ranker-log-file logs/ranker_distilbert_train.log `
+  --base-eval-json artifacts/eval_base_screenshot_only.json `
+  --dom-eval-json artifacts/eval_base_dom.json `
+  --dom-lora-eval-json artifacts/eval_dom_lora.json `
+  --kernel-comparison-json artifacts/kernel_comparison.json
+```
+
+The report writes:
+
+- `report.md`: summary, sanity checks, and links to charts
+- `summary.json`: machine-readable summary
+- PNG charts for:
+  - training curves
+  - eval bars
+  - Kernel success / latency comparison
+
 ## Expected demo story
 
 1. Show screenshot-only base Northstar.

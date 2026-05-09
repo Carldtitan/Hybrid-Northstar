@@ -2,12 +2,14 @@
 
 from __future__ import annotations
 
+import json
 import logging
 import os
 import platform
 import shutil
 import sys
 from pathlib import Path
+from typing import Any
 
 import torch
 
@@ -92,3 +94,34 @@ def prune_checkpoints(output_dir: str | Path, logger: logging.Logger) -> None:
             removed += 1
     if removed:
         logger.info("Removed %s intermediate checkpoint folder(s) from %s", removed, output_path)
+
+
+def _json_safe(value: Any) -> Any:
+    """Coerce trainer history values into JSON-safe primitives."""
+
+    if isinstance(value, dict):
+        return {str(key): _json_safe(item) for key, item in value.items()}
+    if isinstance(value, list):
+        return [_json_safe(item) for item in value]
+    if isinstance(value, tuple):
+        return [_json_safe(item) for item in value]
+    if isinstance(value, (str, int, float, bool)) or value is None:
+        return value
+    if hasattr(value, "item"):
+        try:
+            return value.item()
+        except Exception:
+            pass
+    return str(value)
+
+
+def save_training_history(output_dir: str | Path, log_history: list[dict[str, Any]], logger: logging.Logger) -> Path:
+    """Persist Trainer.log_history so runs can be graphed later."""
+
+    output_path = Path(output_dir)
+    output_path.mkdir(parents=True, exist_ok=True)
+    history_path = output_path / "log_history.json"
+    history_payload = _json_safe(log_history)
+    history_path.write_text(json.dumps(history_payload, indent=2), encoding="utf-8")
+    logger.info("Saved trainer log history to %s", history_path)
+    return history_path
