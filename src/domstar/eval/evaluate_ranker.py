@@ -38,7 +38,7 @@ def main() -> None:
         reciprocal_rank_sum = 0.0
 
         for index, raw_row in enumerate(dataset):
-            example = row_to_action_example(raw_row)
+            example = row_to_action_example(raw_row, load_screenshot=False)
             if example.chosen_positive is None:
                 continue
 

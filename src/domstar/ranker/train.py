@@ -76,7 +76,7 @@ def _build_pairs(
     kept_examples = 0
 
     for index, raw_row in enumerate(dataset):
-        example = row_to_action_example(raw_row)
+        example = row_to_action_example(raw_row, load_screenshot=False)
         if not example.positive_candidates:
             continue
         kept_examples += 1

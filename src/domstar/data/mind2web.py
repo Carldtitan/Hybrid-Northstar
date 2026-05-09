@@ -44,11 +44,15 @@ def iter_mind2web_rows(split: str, limit_rows: int = 0, streaming: bool = False)
     return dataset
 
 
-def row_to_action_example(row: dict[str, Any]) -> Mind2WebActionExample:
+def row_to_action_example(row: dict[str, Any], load_screenshot: bool = True) -> Mind2WebActionExample:
     """Convert one raw dataset row into a reusable action structure."""
 
-    screenshot = row["screenshot"]
-    screenshot_width, screenshot_height = screenshot.size
+    screenshot = None
+    screenshot_width = 0
+    screenshot_height = 0
+    if load_screenshot:
+        screenshot = row["screenshot"]
+        screenshot_width, screenshot_height = screenshot.size
 
     target_index = int(row.get("target_action_index", 0))
     full_history = [str(item) for item in row.get("action_reprs", [])]
