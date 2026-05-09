@@ -1,0 +1,56 @@
+# Run Report
+
+## Sync Expectations
+
+- Remote H100 runs do not update your local VS Code automatically.
+- Code changes need git push from one side and git pull on the other.
+- Artifacts and logs are ignored by git in this repo, so they stay on the machine that created them unless you copy them back explicitly.
+
+## Ranker Health
+
+- Ranker: train loss range 0.0434 -> 0.2847.
+- Ranker: eval loss range 0.0978 -> 0.1039.
+- Ranker: final eval_loss=0.0978.
+
+## What To Look For
+
+- Loss curves should stay finite. NaN or inf means the run is not trustworthy.
+- A healthy ranker usually shows finite eval_loss and non-trivial recall@k.
+- DOM grounding is only justified if element_accuracy or task success goes up enough to offset added latency.
+- If DOM increases latency but not success, the top-k summary or ranker quality is the first thing to revisit.
+
+## Warnings And Errors
+
+- `logs/ranker_eval_gpu.log:7`: 2026-05-09 19:26:17 | ERROR | domstar | Ranker evaluation failed
+- `logs/ranker_eval_gpu.log:8`: Traceback (most recent call last):
+
+## Charts
+
+![ranker_training.png](ranker_training.png)
+
+![ranker_eval.png](ranker_eval.png)
+
+## Metric Snapshots
+
+```json
+{
+  "ranker_metrics": {
+    "eval_loss": 0.09775405377149582,
+    "eval_runtime": 2.0318,
+    "eval_samples_per_second": 2858.557,
+    "eval_steps_per_second": 89.576,
+    "epoch": 2.0
+  },
+  "ranker_eval_metrics": {
+    "split": "test_task",
+    "evaluated_examples": 1257,
+    "recall@10": 0.47573587907716786,
+    "mrr": 0.236195104033856
+  },
+  "finetune_metrics": null,
+  "base_eval_metrics": null,
+  "dom_eval_metrics": null,
+  "dom_lora_eval_metrics": null,
+  "kernel_summary": null
+}
+```
