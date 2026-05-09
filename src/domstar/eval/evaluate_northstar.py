@@ -125,6 +125,9 @@ def main() -> None:
             example = row_to_action_example(raw_row)
             if example.chosen_positive is None:
                 continue
+            if example.screenshot is None:
+                logger.warning("Skipping row with missing screenshot | index=%s | action_uid=%s", index, example.action_uid)
+                continue
 
             if args.disable_dom:
                 dom_summary = "(none)"

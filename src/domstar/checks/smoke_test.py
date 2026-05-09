@@ -52,7 +52,7 @@ def main() -> None:
         from domstar.data.mind2web import iter_mind2web_rows
 
         first_row = next(iter_mind2web_rows(split=args.dataset_split, limit_rows=1, streaming=True))
-        example = row_to_action_example(first_row)
+        example = row_to_action_example(first_row, load_screenshot=False)
         ranked = DOMRanker(args.ranker_model).score(
             build_ranker_query(example),
             example.positive_candidates + example.negative_candidates,

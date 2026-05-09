@@ -179,6 +179,7 @@ class NorthstarDomDataset(Dataset):
             "loaded_rows": 0,
             "skipped_no_positive": 0,
             "skipped_no_candidates": 0,
+            "skipped_no_screenshot": 0,
         }
         dataset = iter_mind2web_rows(split=split, limit_rows=limit_rows, streaming=streaming)
         rng = random.Random(seed)
@@ -188,6 +189,9 @@ class NorthstarDomDataset(Dataset):
             example = row_to_action_example(raw_row)
             if example.chosen_positive is None:
                 self.stats["skipped_no_positive"] += 1
+                continue
+            if example.screenshot is None:
+                self.stats["skipped_no_screenshot"] += 1
                 continue
 
             negatives = example.negative_candidates[:max_negative_pool]
@@ -222,12 +226,13 @@ class NorthstarDomDataset(Dataset):
 
         if logger is not None:
             logger.info(
-                "Prepared split=%s | raw_rows=%s | kept=%s | skipped_no_positive=%s | skipped_no_candidates=%s",
+                "Prepared split=%s | raw_rows=%s | kept=%s | skipped_no_positive=%s | skipped_no_candidates=%s | skipped_no_screenshot=%s",
                 split,
                 self.stats["loaded_rows"],
                 len(self.rows),
                 self.stats["skipped_no_positive"],
                 self.stats["skipped_no_candidates"],
+                self.stats["skipped_no_screenshot"],
             )
 
     def __len__(self) -> int:

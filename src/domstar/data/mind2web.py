@@ -51,8 +51,10 @@ def row_to_action_example(row: dict[str, Any], load_screenshot: bool = True) -> 
     screenshot_width = 0
     screenshot_height = 0
     if load_screenshot:
-        screenshot = row["screenshot"]
-        screenshot_width, screenshot_height = screenshot.size
+        raw_screenshot = row.get("screenshot")
+        if raw_screenshot is not None and hasattr(raw_screenshot, "size"):
+            screenshot = raw_screenshot
+            screenshot_width, screenshot_height = screenshot.size
 
     target_index = int(row.get("target_action_index", 0))
     full_history = [str(item) for item in row.get("action_reprs", [])]
